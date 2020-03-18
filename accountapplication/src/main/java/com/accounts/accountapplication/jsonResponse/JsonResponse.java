@@ -1,11 +1,11 @@
-/*
 package com.accounts.accountapplication.jsonResponse;
 
+import com.accounts.accountapplication.domain.Accounts;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.user.userapplication.domain.User;
+import com.sun.org.apache.xerces.internal.xs.datatypes.ObjectList;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -22,17 +22,17 @@ public class JsonResponse {
 
 
     @JsonSerialize
-    public JSONPObject testSuccessOneItem(User user) throws IOException {
+    public JSONPObject printAccount(Accounts accounts) throws IOException {
         JsonStruct struct = new JsonStruct();
         JsonData data = new JsonData();
-        Map<String, Object> mapUser = new HashMap<String, Object>();
-        mapUser.put("userId", String.valueOf(user.getId()));
-        mapUser.put("firstName", user.getFirstName());
-        mapUser.put("lastName", user.getLastName());
-        mapUser.put("phoneNumber", user.getPhoneNo());
-//        mapUser.put("SSN", user.getSsn());
+        Map<String, Object> mapAccount = new HashMap<String, Object>();
+        mapAccount.put("AccountId", String.valueOf(accounts.getId()));
+        mapAccount.put("AccountName", accounts.getAccountName());
+        mapAccount.put("AccountNumber", accounts.getAccountNumber());
+        mapAccount.put("BankName", accounts.getBankName());
+        mapAccount.put("AccountType",accounts.getAccountType());
 
-        data.put("userInfo", mapUser);
+        data.put("AccountInfo", mapAccount);
         struct.setStatusToSuccess();
         struct.setCode(String.valueOf(HttpStatus.OK));
         struct.setData(data);
@@ -43,21 +43,21 @@ public class JsonResponse {
         return new JSONPObject(s, null);
     }
 
-    public JSONPObject testSuccessItemArray(List<User> users) throws  IOException {
+    public JSONPObject printArrayAccounts(List<Accounts> accounts) throws  IOException {
         JsonStruct struct = new JsonStruct();
         JsonData data = new JsonData();
-        Map<String, String> mapUser = new HashMap<String, String>();
-        List<Map<String, String>> listOfUsers = new ArrayList<Map<String, String>>();
-        for (User user : users) {
-            mapUser.put("userId", String.valueOf(user.getId()));
-            mapUser.put("firstName", user.getFirstName());
-            mapUser.put("lastName", user.getLastName());
-            mapUser.put("phoneNumber", user.getPhoneNo());
-//            mapUser.put("SSN", user.getSsn());
-            listOfUsers.add(new HashMap<>(mapUser));
+        Map<String, Object> mapAccount = new HashMap<String, Object>();
+        List<Map<String, Object>> listOfUsers = new ArrayList<Map<String, Object>>();
+        for (Accounts account : accounts) {
+            mapAccount.put("AccountId", String.valueOf(account.getId()));
+            mapAccount.put("AccountName", account.getAccountName());
+            mapAccount.put("AccountNumber", String.valueOf(account.getAccountNumber()));
+            mapAccount.put("BankName", account.getBankName());
+            mapAccount.put("AccountType", String.valueOf(account.getAccountType()));
+            listOfUsers.add(new HashMap<>(mapAccount));
         }
 
-        data.put("UsersList", listOfUsers);
+        data.put("AccountsList", listOfUsers);
         struct.setStatusToSuccess();
         struct.setData(data);
 
@@ -68,4 +68,3 @@ public class JsonResponse {
         return new JSONPObject(s, null);
     }
 }
-*/

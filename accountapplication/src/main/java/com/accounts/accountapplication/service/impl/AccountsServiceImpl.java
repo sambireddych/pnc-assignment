@@ -34,4 +34,9 @@ public class AccountsServiceImpl implements AccountsService {
     public Accounts save(Accounts accounts) {
         return accountsRepository.saveAndFlush(accounts);
     }
+
+    @Override
+    public List<Accounts> getAllAccountsForUser(String uniqueIdentification) {
+        return accountsRepository.findAllByUniqueIdentification(uniqueIdentification);
+    }
 }

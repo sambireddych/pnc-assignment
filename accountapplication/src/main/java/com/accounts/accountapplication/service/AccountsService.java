@@ -13,5 +13,6 @@ public interface AccountsService {
     void delete(Accounts user);
     Accounts save(Accounts accounts);
 
+    List<Accounts> getAllAccountsForUser(String uniqueIdentification);
 
 }

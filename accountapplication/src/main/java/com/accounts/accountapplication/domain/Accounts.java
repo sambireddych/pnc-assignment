@@ -4,7 +4,7 @@ package com.accounts.accountapplication.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "accounts")
 public class Accounts {
 
     @Id
@@ -15,15 +15,30 @@ public class Accounts {
     @Column(name = "AccountName",length = 50)
     private String accountName;
 
-    @Column(name = "AccountType",length = 20)
+    @Column(name = "BankName")
+    private String bankName;
+
+    @Column(name = "AccountType", columnDefinition = "enum('Savings','Checking')")
+    @Enumerated(value = EnumType.STRING)
     private AccountType accountType;
 
     @Column(name = "AccountNumber",length = 11)
     private long accountNumber;
 
+    @Column(name = "UniqueIdentification")
+    private String uniqueIdentification;
 
 
     public Accounts() {
+    }
+
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
     }
 
     public long getId() {
@@ -56,5 +71,13 @@ public class Accounts {
 
     public void setAccountNumber(long accountNumber) {
         this.accountNumber = accountNumber;
+    }
+
+    public String getUniqueIdentification() {
+        return uniqueIdentification;
+    }
+
+    public void setUniqueIdentification(String uniqueIdentification) {
+        this.uniqueIdentification = uniqueIdentification;
     }
 }
