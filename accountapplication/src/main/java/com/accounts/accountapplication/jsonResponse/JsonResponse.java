@@ -1,4 +1,5 @@
-package com.user.userapplication.jsonResponse;
+/*
+package com.accounts.accountapplication.jsonResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -67,3 +68,4 @@ public class JsonResponse {
         return new JSONPObject(s, null);
     }
 }
+*/

@@ -1,4 +1,4 @@
-package com.user.userapplication.jsonResponse;
+package com.accounts.accountapplication.jsonResponse;
 
 import java.util.HashMap;
 import java.util.Map;

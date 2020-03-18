@@ -1,4 +1,4 @@
-package com.user.userapplication.jsonResponse;
+package com.accounts.accountapplication.jsonResponse;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

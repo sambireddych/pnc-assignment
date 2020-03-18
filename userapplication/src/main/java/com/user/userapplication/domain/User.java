@@ -1,9 +1,9 @@
 package com.user.userapplication.domain;
 
 
-import org.hibernate.annotations.GeneratorType;
 
 import javax.persistence.*;
+import java.util.Calendar;
 
 @Entity
 @Table(name = "users")
@@ -14,8 +14,8 @@ public class User {
     @Column(name = "UserId")
     private long id;
 
-    @Column(name = "SSN")
-    private String ssn;
+    @Column(name = "UniqueIdentification")
+    private String uniqueIdentification;
 
     @Column(name = "FirstName",length = 50)
     private String firstName;
@@ -61,11 +61,12 @@ public class User {
         this.phoneNo = phoneNo;
     }
 
-    public String getSsn() {
-        return ssn;
+    public String getUniqueIdentification() {
+        return uniqueIdentification;
     }
 
-    public void setSsn(String ssn) {
-        this.ssn = ssn;
+    public void setUniqueIdentification(String uniqueIdentification) {
+        this.uniqueIdentification = uniqueIdentification;
     }
+
 }

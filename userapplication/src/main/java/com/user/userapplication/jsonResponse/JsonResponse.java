@@ -29,7 +29,7 @@ public class JsonResponse {
         mapUser.put("firstName", user.getFirstName());
         mapUser.put("lastName", user.getLastName());
         mapUser.put("phoneNumber", user.getPhoneNo());
-        mapUser.put("SSN", user.getSsn());
+//        mapUser.put("SSN", user.getSsn());
 
         data.put("userInfo", mapUser);
         struct.setStatusToSuccess();
@@ -52,7 +52,7 @@ public class JsonResponse {
             mapUser.put("firstName", user.getFirstName());
             mapUser.put("lastName", user.getLastName());
             mapUser.put("phoneNumber", user.getPhoneNo());
-            mapUser.put("SSN", user.getSsn());
+//            mapUser.put("SSN", user.getSsn());
             listOfUsers.add(new HashMap<>(mapUser));
         }
 
