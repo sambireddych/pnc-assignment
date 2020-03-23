@@ -32,7 +32,7 @@ public class AccountsServiceImpl implements AccountsService {
 
     @Override
     public Accounts save(Accounts accounts) {
-        return accountsRepository.saveAndFlush(accounts);
+        return accountsRepository.save(accounts);
     }
 
     @Override

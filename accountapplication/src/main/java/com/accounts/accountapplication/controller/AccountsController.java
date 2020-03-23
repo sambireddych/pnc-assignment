@@ -29,7 +29,9 @@ public class AccountsController {
     }
 
 
-    @GetMapping(produces = "application/json",path = "/user/{id}")
+
+
+    @GetMapping(produces = "application/json",path = {"/user/{id}"})
     public ResponseEntity<?> getAccountsByUser(@PathVariable long id){
         String uniqueIdentifier = accountsService.getById(id).get().getUniqueIdentification();
         if (uniqueIdentifier.isEmpty() || uniqueIdentifier == null) {
@@ -38,6 +40,8 @@ public class AccountsController {
         List<Accounts> accountsList = accountsService.getAllAccountsForUser(uniqueIdentifier);
         return new ResponseEntity<>(accountsList, HttpStatus.OK);
     }
+
+
 
     @GetMapping(value = "/{id}",produces = "application/json")
     public ResponseEntity<?> getOne(@PathVariable long id) throws IOException {
@@ -48,13 +52,14 @@ public class AccountsController {
     public ResponseEntity<?> save(@RequestBody Accounts accounts) throws IOException {
         return new ResponseEntity<>(jsonResponse.printAccount(accountsService.save(accounts)),HttpStatus.OK);
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping(value = "/{id}")
     public void delete(long id){
-        Optional<Accounts> userById = accountsService.getById(id);
-        if(userById.isPresent()){
+        Optional<Accounts> accountById = accountsService.getById(id);
+        if(!accountById.isPresent()){
             return;
+        }else {
+            accountsService.delete(accountById.get());
         }
-        accountsService.delete(userById.get());
     }
 
 }

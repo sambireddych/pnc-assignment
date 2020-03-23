@@ -2,6 +2,8 @@ package com.user.userapplication.domain;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Calendar;
 
@@ -14,6 +16,7 @@ public class User {
     @Column(name = "UserId")
     private long id;
 
+    @JsonIgnore
     @Column(name = "UniqueIdentification")
     private String uniqueIdentification;
 
@@ -25,6 +28,9 @@ public class User {
 
     @Column(name = "PhoneNumber")
     private String phoneNo;
+
+/*    @Column(name = "Password")
+    private String password;*/
 
     public User() {
     }

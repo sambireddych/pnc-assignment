@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.user.userapplication.adapters.Accounts;
 import com.user.userapplication.domain.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ public class JsonResponse {
 
 
     @JsonSerialize
-    public JSONPObject testSuccessOneItem(User user) throws IOException {
+    public JSONPObject printUserInfo(User user) throws IOException {
         JsonStruct struct = new JsonStruct();
         JsonData data = new JsonData();
         Map<String, Object> mapUser = new HashMap<String, Object>();
@@ -42,7 +43,7 @@ public class JsonResponse {
         return new JSONPObject(s, null);
     }
 
-    public JSONPObject testSuccessItemArray(List<User> users) throws  IOException {
+    public JSONPObject printUsersList(List<User> users) throws  IOException {
         JsonStruct struct = new JsonStruct();
         JsonData data = new JsonData();
         Map<String, String> mapUser = new HashMap<String, String>();
@@ -65,5 +66,33 @@ public class JsonResponse {
         mapper.writeValue(out, struct);
         String s = out.toString();
         return new JSONPObject(s, null);
+    }
+
+    public JSONPObject printJsendWithAccountData(List<Accounts> accounts,User user) throws IOException {
+        JsonStruct struct = new JsonStruct();
+        JsonData data = new JsonData();
+        Map<String, String> mapAccount = new HashMap<String, String>();
+        List<Map<String, String>> listOfAccounts = new ArrayList<Map<String, String>>();
+
+        mapAccount.put("firstName",user.getFirstName());
+        mapAccount.put("lastName",user.getLastName());
+        for (Accounts account : accounts) {
+            mapAccount.put("accountName", account.getAccountName());
+            mapAccount.put("bankName", account.getBankName());
+            mapAccount.put("accountNumber", String.valueOf(account.getAccountNumber()));
+            mapAccount.put("accountType",account.getAccountType());
+            listOfAccounts.add(new HashMap<>(mapAccount));
+        }
+
+        data.put("Accounts", listOfAccounts);
+        struct.setStatusToSuccess();
+        struct.setData(data);
+
+        ObjectMapper mapper = new ObjectMapper();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        mapper.writeValue(out, struct);
+        String s = out.toString();
+        return new JSONPObject(s, null);
+
     }
 }
