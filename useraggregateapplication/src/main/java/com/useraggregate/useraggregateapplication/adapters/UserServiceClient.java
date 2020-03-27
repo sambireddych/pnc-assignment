@@ -8,4 +8,6 @@ public interface UserServiceClient {
 
     ResponseEntity<List<User>> getUserDetails();
 
+    ResponseEntity<User> saveUser();
+
 }

@@ -47,7 +47,7 @@ public class UserController {
         return new ResponseEntity<>(jsonResponse.printUserInfo(userService.getById(id).get()),HttpStatus.OK);
     }
 
-    @PostMapping(produces = "application/json",consumes = "application/json")
+    @PostMapping(produces = "application/json",consumes = "application/json",path = "/user")
     public ResponseEntity<?> saveUser(@RequestBody User user) throws IOException {
         return new ResponseEntity<>(jsonResponse.printUserInfo(userService.save(user)),HttpStatus.OK);
     }

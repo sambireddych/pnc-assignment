@@ -31,4 +31,13 @@ public class UserServiceClientImpl implements UserServiceClient{
         ResponseEntity<User[]> users = restTemplate.getForEntity(url, User[].class);
         return new ResponseEntity<>(Arrays.asList(users.getBody()), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<User> saveUser() {
+        String url = config.getUrl()+"/users/user";
+        ResponseEntity<User> saveUser = restTemplate.getForEntity(url,User.class);
+        return new ResponseEntity<>(saveUser.getBody(),HttpStatus.OK);
+    }
+
+
 }

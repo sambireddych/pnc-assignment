@@ -5,7 +5,6 @@ package com.user.userapplication.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.Calendar;
 
 @Entity
 @Table(name = "users")
@@ -19,6 +18,10 @@ public class User {
     @JsonIgnore
     @Column(name = "UniqueIdentification")
     private String uniqueIdentification;
+
+
+
+
 
     @Column(name = "FirstName",length = 50)
     private String firstName;

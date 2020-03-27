@@ -11,9 +11,7 @@ import com.useraggregate.useraggregateapplication.jsonResponse.JsonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -61,6 +59,17 @@ public class UserAggregateController {
 
         return new ResponseEntity<>(jsonResponse.printJsendFormat(map), HttpStatus.OK);
 //        return new ResponseEntity<>(new ObjectMapper().writeValueAsString(map),HttpStatus.OK);
+    }
+
+
+    // ToDo
+
+
+    @PostMapping(produces = "application/json",consumes = "application/json",path = "/create")
+    public ResponseEntity<?> saveUserAndAccount(@RequestBody User user) throws IOException {
+        User saveUser = userServiceClient.saveUser().getBody();
+//        Accounts accounts = accountServiceClient.saveAccount().getBody();
+        return new ResponseEntity<>(saveUser,HttpStatus.OK);
     }
 
 

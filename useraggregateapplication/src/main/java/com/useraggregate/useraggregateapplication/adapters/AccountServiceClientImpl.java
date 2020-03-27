@@ -35,4 +35,11 @@ public class AccountServiceClientImpl implements AccountServiceClient{
         return new ResponseEntity<>(Arrays.asList(forEntity.getBody()), HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<Accounts> saveAccount() {
+        String accountUrl = config.getUrl()+"/accounts/account/";
+        ResponseEntity<Accounts> saveAccount = restTemplate.getForEntity(accountUrl,Accounts.class);
+        return new ResponseEntity<>(saveAccount.getBody(),HttpStatus.OK);
+    }
+
 }

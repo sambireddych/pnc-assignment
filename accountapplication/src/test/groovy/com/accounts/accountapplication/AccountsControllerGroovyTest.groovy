@@ -1,7 +1,8 @@
-package com.user.userapplication
+package com.accounts.accountapplication
 
-import com.user.userapplication.domain.User
-import com.user.userapplication.service.UserService
+import com.accounts.accountapplication.domain.AccountType
+import com.accounts.accountapplication.domain.Accounts
+import com.accounts.accountapplication.service.AccountsService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -14,31 +15,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-@SpringBootTest(classes = UserapplicationApplication.class,
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class UserControllerGroovyTest extends Specification {
-
-
-
+class AccountsControllerGroovyTest extends Specification{
     @Autowired
     MockMvc mockMvc
 
     @Autowired
-    UserService userService
+    AccountsService accountsService
 
     def "should return 200 and should expect status is success"() {
         expect: "should return 200 and status is ok"
-        this.mockMvc.perform(get("/users/3"))
+        this.mockMvc.perform(get("/accounts/3"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\"status\":\"success\"}"))
                 .andReturn()
     }
 
-    def "should return 500 before new user inserted"() {
+    def "should return 500 before new account inserted"() {
         expect: "should return 500 and status is internal server error"
-        this.mockMvc.perform(get("/users/4"))
+        this.mockMvc.perform(get("/accounts/5"))
                 .andDo(print())
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().json("{\"status\":\"error\"}"))
@@ -46,34 +44,33 @@ class UserControllerGroovyTest extends Specification {
     }
 
 
-    def "should send request and create user return 200"() {
+    def "should send request and create account and return 200"() {
         setup:
-        User user = new User()
-        user.setId(4)
-        user.setFirstName("Frank")
-        user.setLastName("Lamps")
-        user.setPhoneNo("7783778772")
-        user.setUniqueIdentification("frla")
+        Accounts accounts = new Accounts()
+        accounts.setId(5L)
+        accounts.setAccountName("Mount Mason")
+        accounts.setUniqueIdentification("moma")
+        accounts.setAccountNumber(787878833)
+        accounts.setBankName("Chase Bank")
+        accounts.setAccountType(AccountType.Savings)
 
 
         expect:
-        userService.save(user)
+        accountsService.save(accounts)
 
-        /* then:
-         1 * userRepository.save(user)*/
     }
 
-    def "find all users and should return 200"() {
+    def "find all accounts and should return 200"() {
         when:
-        def users = userService.getAll()
+        def accounts = accountsService.getAll()
         then:
-        users.size() == 4
+        accounts.size() == 5
     }
 
 
-    def "should return 200 after newly user inserted"() {
+    def "should return 200 after newly accounts inserted"() {
         expect: "should return 200 and status is ok"
-        this.mockMvc.perform(get("/users/4"))
+        this.mockMvc.perform(get("/accounts/5"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\"status\":\"success\"}"))
@@ -81,17 +78,16 @@ class UserControllerGroovyTest extends Specification {
     }
 
 
-    def "delete user by id and should return status ok"(){
+    def "delete account by id and should return status ok"(){
         expect: "should return 200 and status is ok"
-        this.mockMvc.perform(delete("/users/4"))
-        .andDo(print())
-        .andExpect(status().isOk())
-        .andReturn()
+        this.mockMvc.perform(delete("/accounts/5"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn()
 
         when:
-        def users = userService.getAll()
+        def accounts = accountsService.getAll()
         then:
-        users.size() == 3
+        accounts.size() == 4
     }
-
 }

@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.2.5.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
+	id 'groovy'
 }
 
 group = 'com.accounts'
@@ -18,6 +19,9 @@ dependencies {
 	implementation 'com.h2database:h2'
 	implementation 'io.springfox:springfox-swagger2:2.9.2'
 	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+	testCompile group: 'org.spockframework', name: 'spock-core', version: '1.1-groovy-2.4'
+	testCompile group: 'org.spockframework', name: 'spock-spring', version: '1.1-groovy-2.4'
+	compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.11', ext: 'pom'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
