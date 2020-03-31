@@ -23,7 +23,7 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 public class AutorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
 
-    private final static int token_validity = 120;
+    private final static int token_validity = 1200;
 
     private final static int refresh_token_validity = 24000;
 
@@ -39,8 +39,7 @@ public class AutorizationServerConfig extends AuthorizationServerConfigurerAdapt
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security
                 .tokenKeyAccess("permitAll()")
-                .checkTokenAccess("isAuthenticated()")
-                .allowFormAuthenticationForClients();
+                .checkTokenAccess("isAuthenticated()") ;
     }
 
     @Override
@@ -50,9 +49,9 @@ public class AutorizationServerConfig extends AuthorizationServerConfigurerAdapt
                 .inMemory()
                 .withClient("user_aggregate")
                 .secret(passwordEncoder.encode("uascecrc"))
-                .authorizedGrantTypes ( "client_credentials" )
+                .authorizedGrantTypes ("client_credentials" )
                 .authorities(" READ_ONLY ")
-                .scopes("read_user_account_details")
+                .scopes("read","write")
                 .resourceIds("resourceId")
                 .accessTokenValiditySeconds(token_validity)
                 .refreshTokenValiditySeconds(refresh_token_validity);
@@ -65,17 +64,13 @@ public class AutorizationServerConfig extends AuthorizationServerConfigurerAdapt
     @Override
     public  void  configure ( AuthorizationServerEndpointsConfigurer  endpoints ) {
         endpoints
+                .tokenStore(tokenStore())
                 .allowedTokenEndpointRequestMethods ( HttpMethod.GET , HttpMethod.POST );
     }
-/*
     @Bean
     public TokenStore tokenStore(){
         return new InMemoryTokenStore();
-    }*/
+    }
 
 
-    /*@Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.authenticationManager(authenticationManager);
-    }*/
 }

@@ -1,6 +1,7 @@
 package com.useraggregate.useraggregateapplication.adapters;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -16,6 +17,7 @@ public class User {
     private long id;
     @JsonProperty
     private String phoneNo;
+    private String uniqueIdentification;
 
     protected User() {
     }
@@ -42,6 +44,14 @@ public class User {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getUniqueIdentification() {
+        return uniqueIdentification;
+    }
+
+    public void setUniqueIdentification(String uniqueIdentification) {
+        this.uniqueIdentification = uniqueIdentification;
     }
 
     public String getPhoneNo() {

@@ -2,8 +2,7 @@ package com.useraggregate.useraggregateapplication.adapters;
 
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -36,9 +35,12 @@ public class AccountServiceClientImpl implements AccountServiceClient{
     }
 
     @Override
-    public ResponseEntity<Accounts> saveAccount() {
+    public ResponseEntity<Accounts> saveAccount(Accounts accounts) {
         String accountUrl = config.getUrl()+"/accounts/account/";
-        ResponseEntity<Accounts> saveAccount = restTemplate.getForEntity(accountUrl,Accounts.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<?> entity = new HttpEntity<>(accounts,headers);
+        ResponseEntity<Accounts> saveAccount = restTemplate.exchange(accountUrl, HttpMethod.POST, entity,Accounts.class);
         return new ResponseEntity<>(saveAccount.getBody(),HttpStatus.OK);
     }
 

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,10 @@ public class UserController {
         this.accountServiceClient = accountServiceClient;
     }
 
+    @GetMapping(path = "/validateUser")
+    public Principal user(Principal user){
+        return user;
+    }
     @GetMapping(value = "/all",produces = "application/json")
     private ResponseEntity<List<User>> getAll(){
         return new ResponseEntity<>(userService.getAll(),HttpStatus.OK);
@@ -50,6 +55,12 @@ public class UserController {
     @PostMapping(produces = "application/json",consumes = "application/json",path = "/user")
     public ResponseEntity<?> saveUser(@RequestBody User user) throws IOException {
         return new ResponseEntity<>(jsonResponse.printUserInfo(userService.save(user)),HttpStatus.OK);
+    }
+
+
+    @PostMapping(produces = "application/json",consumes = "application/json",path = "/newUser")
+    public ResponseEntity<?> callSaveUser(@RequestBody User user) throws IOException {
+        return new ResponseEntity<>(userService.save(user),HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable long id){

@@ -1,6 +1,7 @@
 package com.useraggregate.useraggregateapplication.adapters;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -17,9 +18,20 @@ public class Accounts {
     private long accountNumber;
     @JsonProperty
     private String accountType;
+    @JsonIgnore
+    private String uniqueIdentification;
 
 
-    protected Accounts() {
+    public Accounts() {
+    }
+
+
+    public String getUniqueIdentification() {
+        return uniqueIdentification;
+    }
+
+    public void setUniqueIdentification(String uniqueIdentification) {
+        this.uniqueIdentification = uniqueIdentification;
     }
 
     public long getId() {

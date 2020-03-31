@@ -15,8 +15,7 @@ public class User {
     @Column(name = "UserId")
     private long id;
 
-    @JsonIgnore
-    @Column(name = "UniqueIdentification")
+    @Column(name = "UniqueIdentification",unique = true)
     private String uniqueIdentification;
 
 

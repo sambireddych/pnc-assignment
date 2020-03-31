@@ -2,18 +2,16 @@ package com.useraggregate.useraggregateapplication.controllers;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.useraggregate.useraggregateapplication.adapters.AccountServiceClient;
-import com.useraggregate.useraggregateapplication.adapters.Accounts;
-import com.useraggregate.useraggregateapplication.adapters.User;
-import com.useraggregate.useraggregateapplication.adapters.UserServiceClient;
+import com.useraggregate.useraggregateapplication.adapters.*;
 import com.useraggregate.useraggregateapplication.jsonResponse.JsonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,15 +33,17 @@ public class UserAggregateController {
     @Autowired
     private JsonResponse jsonResponse;
 
-    @GetMapping(produces = "application/json")
+
+    @GetMapping(produces = "application/json",path = "/getAll")
     public ResponseEntity<?> getAllAccountUser() throws IOException {
+
+        /*String token = userServiceClient.getToken();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization","Bearer "+token);*/
 
         ResponseEntity<List<User>> userList = userServiceClient.getUserDetails();
         ResponseEntity<List<Accounts>> accountsList = null;
         Map<User, List<Accounts>> map = new HashMap<>();
-
-
-
         for (User user : userList.getBody()) {
 
             /*if(map.containsKey(user)){
@@ -58,19 +58,35 @@ public class UserAggregateController {
         }
 
         return new ResponseEntity<>(jsonResponse.printJsendFormat(map), HttpStatus.OK);
-//        return new ResponseEntity<>(new ObjectMapper().writeValueAsString(map),HttpStatus.OK);
     }
 
 
-    // ToDo
+    @PostMapping(produces = "application/json", consumes = "application/json", path = "/create")
+    public ResponseEntity<?> saveUserAndAccount(@RequestBody CustomerData customerData) throws IOException {
+
+        String uniqueIdentification = customerData.getUser().getUniqueIdentification();
+        Map<User, List<Accounts>> map = new HashMap<>();
+
+        customerData.getAccounts().stream().forEach(accounts -> accounts.setUniqueIdentification(uniqueIdentification));
+        User saveUser = userServiceClient.saveUser(customerData.getUser()).getBody();
+        Accounts accounts = new Accounts();
+        List<Accounts> accountsList = new ArrayList<>();
+        for (int i = 0; i < customerData.getAccounts().size(); i++) {
+            accounts = accountServiceClient.saveAccount(customerData.getAccounts().get(i)).getBody();
+            if (customerData.getAccounts().size() > 1) {
+                accountsList.add(accounts);
+                map.put(saveUser, new ArrayList<>(accountsList));
+            } else {
+                accountsList.add(accounts);
+                map.put(saveUser, accountsList);
+            }
+        }
 
 
-    @PostMapping(produces = "application/json",consumes = "application/json",path = "/create")
-    public ResponseEntity<?> saveUserAndAccount(@RequestBody User user) throws IOException {
-        User saveUser = userServiceClient.saveUser().getBody();
-//        Accounts accounts = accountServiceClient.saveAccount().getBody();
-        return new ResponseEntity<>(saveUser,HttpStatus.OK);
+        return new ResponseEntity<>(jsonResponse.printJsendFormat(map), HttpStatus.OK);
     }
+
+
 
 
 }

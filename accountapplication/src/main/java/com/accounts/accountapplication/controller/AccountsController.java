@@ -52,6 +52,11 @@ public class AccountsController {
     public ResponseEntity<?> save(@RequestBody Accounts accounts) throws IOException {
         return new ResponseEntity<>(jsonResponse.printAccount(accountsService.save(accounts)),HttpStatus.OK);
     }
+
+    @PostMapping(produces = "application/json",consumes = "application/json",path = "/account")
+    public ResponseEntity<?> saveAccountFromUserAggregate(@RequestBody Accounts accounts) throws IOException {
+        return new ResponseEntity<>(accountsService.save(accounts),HttpStatus.OK);
+    }
     @DeleteMapping(value = "/{id}")
     public void delete(long id){
         Optional<Accounts> accountById = accountsService.getById(id);
