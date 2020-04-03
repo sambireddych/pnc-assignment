@@ -18,8 +18,11 @@ dependencies {
 	runtimeOnly 'com.h2database:h2'
 	// https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2
 	implementation group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.4.0.RELEASE'
-//	compile "org.springframework.boot:spring-boot-starter-security"
-
+// https://mvnrepository.com/artifact/org.springframework.security/spring-security-test
+	testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '5.3.0.RELEASE'
+	testCompile group: 'org.spockframework', name: 'spock-core', version: '1.1-groovy-2.4'
+	testCompile group: 'org.spockframework', name: 'spock-spring', version: '1.1-groovy-2.4'
+	compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.11', ext: 'pom'
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

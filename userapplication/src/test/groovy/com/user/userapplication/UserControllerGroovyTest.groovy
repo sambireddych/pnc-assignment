@@ -20,7 +20,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UserControllerGroovyTest extends Specification {
 
 
-
     @Autowired
     MockMvc mockMvc
 
@@ -81,12 +80,12 @@ class UserControllerGroovyTest extends Specification {
     }
 
 
-    def "delete user by id and should return status ok"(){
+    def "delete user by id and should return status ok"() {
         expect: "should return 200 and status is ok"
         this.mockMvc.perform(delete("/users/4"))
-        .andDo(print())
-        .andExpect(status().isOk())
-        .andReturn()
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn()
 
         when:
         def users = userService.getAll()

@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-public class AccountServiceClientImpl implements AccountServiceClient{
+public class AccountServiceClientImpl implements AccountServiceClient {
 
     private RestTemplate restTemplate;
     private AccountServiceClientConfig config;
@@ -26,22 +26,21 @@ public class AccountServiceClientImpl implements AccountServiceClient{
     }
 
 
-
     @Override
-    public ResponseEntity<List<Accounts>> getAccountFromAccountService(long id){
-        String accountUrl = config.getUrl()+"/accounts/user/"+id;
+    public ResponseEntity<List<Accounts>> getAccountFromAccountService(String uid) {
+        String accountUrl = config.getUrl() + "/accounts/user?uid=" + uid;
         ResponseEntity<Accounts[]> forEntity = restTemplate.getForEntity(accountUrl, Accounts[].class);
         return new ResponseEntity<>(Arrays.asList(forEntity.getBody()), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Accounts> saveAccount(Accounts accounts) {
-        String accountUrl = config.getUrl()+"/accounts/account/";
+        String accountUrl = config.getUrl() + "/accounts/account/";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<?> entity = new HttpEntity<>(accounts,headers);
-        ResponseEntity<Accounts> saveAccount = restTemplate.exchange(accountUrl, HttpMethod.POST, entity,Accounts.class);
-        return new ResponseEntity<>(saveAccount.getBody(),HttpStatus.OK);
+        HttpEntity<?> entity = new HttpEntity<>(accounts, headers);
+        ResponseEntity<Accounts> saveAccount = restTemplate.exchange(accountUrl, HttpMethod.POST, entity, Accounts.class);
+        return new ResponseEntity<>(saveAccount.getBody(), HttpStatus.OK);
     }
 
 }

@@ -53,7 +53,7 @@ public class AccountsControllerTest {
     }
 
 
-    @Test
+    /*@Test
     public void should_Delete_User_And_Return_200(){
 
         try {
@@ -64,12 +64,12 @@ public class AccountsControllerTest {
             e.printStackTrace();
         }
 
-    }
+    }*/
 
     @Test
     @Sql("/test.sql")
 
-    public void get_User_Id_By_Test(){
+    public void get_Account_By_Id_return_200(){
         try {
             this.mockMvc.perform(get("/accounts/1"))
                     .andDo(print())
@@ -81,7 +81,7 @@ public class AccountsControllerTest {
     }
 
   @Test
-    public void invalid_get_user_id_should_return_error(){
+    public void invalid_get_Account_id_should_return_error(){
         try {
             this.mockMvc.perform(get("/accounts/6"))
                     .andDo(print())

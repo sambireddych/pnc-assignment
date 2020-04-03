@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface AccountServiceClient {
 
-    ResponseEntity<List<Accounts>> getAccountFromAccountService(long id);
+    ResponseEntity<List<Accounts>> getAccountFromAccountService(String uid);
 
 }

@@ -30,8 +30,8 @@ public class AccountServiceClientImpl implements AccountServiceClient{
 
 
 
-    public ResponseEntity<List<Accounts>> getAccountFromAccountService(long id){
-        String accountUrl = config.getUrl()+"/accounts/user/"+id;
+    public ResponseEntity<List<Accounts>> getAccountFromAccountService(String uid){
+        String accountUrl = config.getUrl()+"/accounts/user?uid="+uid;
         ResponseEntity<Accounts[]> forEntity = restTemplate.getForEntity(accountUrl, Accounts[].class);
         return new ResponseEntity<>(Arrays.asList(forEntity.getBody()), HttpStatus.OK);
     }

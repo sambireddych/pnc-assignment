@@ -19,7 +19,7 @@ public class User {
     private String phoneNo;
     private String uniqueIdentification;
 
-    protected User() {
+    public User() {
     }
 
     public String getFirstName() {

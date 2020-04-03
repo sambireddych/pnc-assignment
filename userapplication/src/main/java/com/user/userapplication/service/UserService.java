@@ -12,6 +12,6 @@ public interface UserService {
     Optional<User> getById(long id);
     void delete(User user);
     User save(User user);
-
+    String findUniqueIdentification(String uniqueIdentification);
 
 }

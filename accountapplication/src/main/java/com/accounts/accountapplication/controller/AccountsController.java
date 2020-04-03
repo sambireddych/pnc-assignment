@@ -31,13 +31,9 @@ public class AccountsController {
 
 
 
-    @GetMapping(produces = "application/json",path = {"/user/{id}"})
-    public ResponseEntity<?> getAccountsByUser(@PathVariable long id){
-        String uniqueIdentifier = accountsService.getById(id).get().getUniqueIdentification();
-        if (uniqueIdentifier.isEmpty() || uniqueIdentifier == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        List<Accounts> accountsList = accountsService.getAllAccountsForUser(uniqueIdentifier);
+    @GetMapping(produces = "application/json",path = {"/user"},params = "uid")
+    public ResponseEntity<?> getAccountsByUser(@RequestParam String uid){
+        List<Accounts> accountsList = accountsService.getAllAccountsForUser(uid);
         return new ResponseEntity<>(accountsList, HttpStatus.OK);
     }
 

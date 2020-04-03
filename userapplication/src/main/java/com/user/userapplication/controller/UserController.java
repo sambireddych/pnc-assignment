@@ -30,10 +30,6 @@ public class UserController {
         this.accountServiceClient = accountServiceClient;
     }
 
-    @GetMapping(path = "/validateUser")
-    public Principal user(Principal user){
-        return user;
-    }
     @GetMapping(value = "/all",produces = "application/json")
     private ResponseEntity<List<User>> getAll(){
         return new ResponseEntity<>(userService.getAll(),HttpStatus.OK);
@@ -42,11 +38,10 @@ public class UserController {
 
     @GetMapping(produces = "application/json")
     public ResponseEntity<?> getAllUsers() throws IOException {
-
         return new ResponseEntity<>(jsonResponse.printUsersList(userService.getAll()), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{id}",produces = "application/json")
+    @GetMapping(value = "/user/{id}",produces = "application/json")
     public ResponseEntity<?> getOneUser(@PathVariable long id) throws IOException {
         Optional<User> byId = userService.getById(id);
         return new ResponseEntity<>(jsonResponse.printUserInfo(userService.getById(id).get()),HttpStatus.OK);
@@ -62,7 +57,7 @@ public class UserController {
     public ResponseEntity<?> callSaveUser(@RequestBody User user) throws IOException {
         return new ResponseEntity<>(userService.save(user),HttpStatus.OK);
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/user/{id}")
     public void deleteUser(@PathVariable long id){
         Optional<User> userById = userService.getById(id);
         if(!userById.isPresent()){
@@ -74,12 +69,14 @@ public class UserController {
 
     @GetMapping(produces = "application/json",path = "/{id}/accounts")
     public ResponseEntity<?> getAccountsForUser(@PathVariable long id) throws IOException {
-        Optional<User> user = userService.getById(id);
+        User user = userService.getById(id).get();
+        String uniqueIdentification = user.getUniqueIdentification();
        /* if (!user.isPresent()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }*/
-        List<Accounts> accounts = accountServiceClient.getAccountFromAccountService(id).getBody();
-        return new ResponseEntity<>(jsonResponse.printJsendWithAccountData(accounts,user.get()),HttpStatus.OK);
+
+        List<Accounts> accounts = accountServiceClient.getAccountFromAccountService(uniqueIdentification).getBody();
+        return new ResponseEntity<>(jsonResponse.printJsendWithAccountData(accounts,user),HttpStatus.OK);
 
     }
 

@@ -18,7 +18,9 @@ public class Accounts {
     private long accountNumber;
     @JsonProperty
     private String accountType;
-    @JsonIgnore
+
+
+    @JsonProperty
     private String uniqueIdentification;
 
 

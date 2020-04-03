@@ -37,4 +37,9 @@ public class UserServiceImpl implements UserService {
     public User save(User user) {
         return userRepository.saveAndFlush(user);
     }
+
+    @Override
+    public String findUniqueIdentification(String uniqueIdentification) {
+        return userRepository.findByuniqueIdentification(uniqueIdentification);
+    }
 }

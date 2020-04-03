@@ -28,7 +28,7 @@ public class AutorizationServerConfig extends AuthorizationServerConfigurerAdapt
     private final static int refresh_token_validity = 24000;
 
 
-   @Autowired(required = false)
+    @Autowired(required = false)
     private AuthenticationManager authenticationManager;
 
 
@@ -39,7 +39,7 @@ public class AutorizationServerConfig extends AuthorizationServerConfigurerAdapt
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security
                 .tokenKeyAccess("permitAll()")
-                .checkTokenAccess("isAuthenticated()") ;
+                .checkTokenAccess("isAuthenticated()");
     }
 
     @Override
@@ -49,9 +49,9 @@ public class AutorizationServerConfig extends AuthorizationServerConfigurerAdapt
                 .inMemory()
                 .withClient("user_aggregate")
                 .secret(passwordEncoder.encode("uascecrc"))
-                .authorizedGrantTypes ("client_credentials" )
+                .authorizedGrantTypes("client_credentials")
                 .authorities(" READ_ONLY ")
-                .scopes("read","write")
+                .scopes("read", "write")
                 .resourceIds("resourceId")
                 .accessTokenValiditySeconds(token_validity)
                 .refreshTokenValiditySeconds(refresh_token_validity);
@@ -61,14 +61,16 @@ public class AutorizationServerConfig extends AuthorizationServerConfigurerAdapt
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Override
-    public  void  configure ( AuthorizationServerEndpointsConfigurer  endpoints ) {
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints
                 .tokenStore(tokenStore())
-                .allowedTokenEndpointRequestMethods ( HttpMethod.GET , HttpMethod.POST );
+                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
     }
+
     @Bean
-    public TokenStore tokenStore(){
+    public TokenStore tokenStore() {
         return new InMemoryTokenStore();
     }
 

@@ -11,7 +11,6 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,28 +33,26 @@ public class UserAggregateController {
     private JsonResponse jsonResponse;
 
 
-    @GetMapping(produces = "application/json",path = "/getAll")
-    public ResponseEntity<?> getAllAccountUser() throws IOException {
+    @GetMapping(produces = "application/json", path = "/getAll")
+    public ResponseEntity<?> getAllUserAndAccounts() throws IOException {
 
         /*String token = userServiceClient.getToken();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization","Bearer "+token);*/
 
         ResponseEntity<List<User>> userList = userServiceClient.getUserDetails();
-        ResponseEntity<List<Accounts>> accountsList = null;
+        ResponseEntity<List<Accounts>> accountsList;
         Map<User, List<Accounts>> map = new HashMap<>();
         for (User user : userList.getBody()) {
 
-            /*if(map.containsKey(user)){
-                accountsList = accountServiceClient.getAccountFromAccountService(user.getId());
-                map.putIfAbsent(objectMapper.writeValueAsString(user),new ArrayList<>(accountsList.getBody()));
-            }else{
-            accountsList = accountServiceClient.getAccountFromAccountService(user.getId());
-            map.put(objectMapper.writeValueAsString(user),new ArrayList<>(accountsList.getBody()));}
-        }*/
-            accountsList = accountServiceClient.getAccountFromAccountService(user.getId());
-            map.put(user, new ArrayList<>(accountsList.getBody()));
+            accountsList = accountServiceClient.getAccountFromAccountService(user.getUniqueIdentification());
+            List<Accounts> body = accountsList.getBody();
+            map.put(user, new ArrayList<>(body));
+
         }
+            /*accountsList = accountServiceClient.getAccountFromAccountService(user.getId());
+            map.put(user, new ArrayList<>(accountsList.getBody()));
+        }*/
 
         return new ResponseEntity<>(jsonResponse.printJsendFormat(map), HttpStatus.OK);
     }
@@ -69,7 +66,7 @@ public class UserAggregateController {
 
         customerData.getAccounts().stream().forEach(accounts -> accounts.setUniqueIdentification(uniqueIdentification));
         User saveUser = userServiceClient.saveUser(customerData.getUser()).getBody();
-        Accounts accounts = new Accounts();
+        Accounts accounts;
         List<Accounts> accountsList = new ArrayList<>();
         for (int i = 0; i < customerData.getAccounts().size(); i++) {
             accounts = accountServiceClient.saveAccount(customerData.getAccounts().get(i)).getBody();
@@ -81,12 +78,8 @@ public class UserAggregateController {
                 map.put(saveUser, accountsList);
             }
         }
-
-
         return new ResponseEntity<>(jsonResponse.printJsendFormat(map), HttpStatus.OK);
     }
-
-
 
 
 }

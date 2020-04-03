@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @Component
-public class UserServiceClientImpl implements UserServiceClient{
+public class UserServiceClientImpl implements UserServiceClient {
 
     private RestTemplate restTemplate;
     private UserServiceClientConfig config;
@@ -29,11 +29,11 @@ public class UserServiceClientImpl implements UserServiceClient{
 
 
     @Override
-    public String getToken(){
+    public String getToken() {
         HttpHeaders headers = new HttpHeaders();
         String url = "http://localhost:8082/oauth/token";
         url += "?grant_type=client_credentials";
-        headers.setBasicAuth("user_aggregate","uascecrc");
+        headers.setBasicAuth("user_aggregate", "uascecrc");
         HttpEntity<?> entity = new HttpEntity<>(headers);
         ResponseEntity<String> exchange = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
         JsonNode node = null;
@@ -46,6 +46,7 @@ public class UserServiceClientImpl implements UserServiceClient{
         String token = node.path("access_token").asText();
         return token;
     }
+
     @Override
     public ResponseEntity<List<User>> getUserDetails() {
 
@@ -58,19 +59,19 @@ public class UserServiceClientImpl implements UserServiceClient{
         ResponseEntity<User[]> users = restTemplate.exchange(userUrl, HttpMethod.GET, httpEntity, User[].class);
 */
 
-        String userUrl = config.getUrl()+"/users/all";
+        String userUrl = config.getUrl() + "/users/all";
         ResponseEntity<User[]> users = restTemplate.getForEntity(userUrl, User[].class);
         return new ResponseEntity<>(Arrays.asList(users.getBody()), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<User> saveUser(User user) {
-        String url = config.getUrl()+"/users/newUser";
+        String url = config.getUrl() + "/users/newUser";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<?> entity = new HttpEntity<>(user,headers);
+        HttpEntity<?> entity = new HttpEntity<>(user, headers);
         ResponseEntity<User> saveUser = restTemplate.exchange(url, HttpMethod.POST, entity, User.class);
-        return new ResponseEntity<>(saveUser.getBody(),HttpStatus.OK);
+        return new ResponseEntity<>(saveUser.getBody(), HttpStatus.OK);
     }
 
 }
